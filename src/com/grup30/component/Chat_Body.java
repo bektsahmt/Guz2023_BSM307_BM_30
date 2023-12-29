@@ -19,13 +19,15 @@ public class Chat_Body extends javax.swing.JPanel {
         init();
         addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
         addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
-        addItemRight("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")));
+        addItemRight("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.png")));
         addDate("25.12.2023");
+        String img[]={"L7ByNv%L00NG~VxaE1s:57WBxGt7","L7GIlK005@06~l9eI9?u-;-TIl~o"};
         addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",
             new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")), new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")));
-        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
+        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",img);
         addItemLeft("","Ahmet",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")) );
-        
+        addItemFile("", "Dara", "my doc.pdf", "100 MB");
+        addItemFileRight("","my file.rar", "15 MB");
     }   
         
     
@@ -45,11 +47,42 @@ public class Chat_Body extends javax.swing.JPanel {
         body.repaint();
         body.revalidate();
     }
+     public void addItemLeft(String text, String user,String[] image){
+        Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+        item.setText(text);
+        item.setImage(image);
+        item.setTime();
+        item.setUserProfile(user);
+        body.add(item,"wrap, w :: 80% ");
+        body.repaint();
+        body.revalidate();
+    }
     
+     public void addItemFile(String text, String user, String fileName, String fileSize){
+        Chat_Left_With_Profile item = new Chat_Left_With_Profile();
+        item.setText(text);
+        item.setFile(fileName,fileSize);
+        item.setTime();
+        item.setUserProfile(user);
+        body.add(item,"wrap, w 100::80%");
+        body.repaint();
+        body.revalidate();
+    }
+     
     public void addItemRight(String text, Icon... image){
         Chat_Right item = new Chat_Right();
         item.setText(text);
         item.setImage(image);
+        item.setTime();
+        body.add(item,"wrap,al right, w :: 80% ");
+        body.repaint();
+        body.revalidate();
+    }
+    
+    public void addItemFileRight(String text, String fileName, String fileSize){
+        Chat_Right item = new Chat_Right();
+        item.setText(text);
+        item.setFile(fileName, fileSize);
         item.setTime();
         body.add(item,"wrap,al right, w :: 80% ");
         body.repaint();

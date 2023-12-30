@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -42,9 +43,11 @@ public class Chat_Bottom extends javax.swing.JPanel {
             }
             
         });
+        txt.setBorder(new EmptyBorder(5,5,5,5));
         txt.setHintText("Mesaj yaz");
         scroll.setViewportView(txt);
         ScrollBar sb = new ScrollBar();
+        sb.setBackground(new Color(242,242,242));
         sb.setPreferredSize(new Dimension(2,10));
         scroll.setVerticalScrollBar(sb);
         add(sb);

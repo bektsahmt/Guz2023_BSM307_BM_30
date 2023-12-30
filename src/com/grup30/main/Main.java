@@ -1,11 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package com.grup30.main;
 
+import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.grup30.event.EventImageView;
+import com.grup30.event.EventMain;
 import com.grup30.event.PublicEvent;
+import com.grup30.service.Service;
 import com.grup30.swing.ComponentResizer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -37,12 +37,26 @@ public class Main extends javax.swing.JFrame {
         com.setMinimumSize(new Dimension(900,500));
         com.setMaximumSize(Toolkit.getDefaultToolkit().getScreenSize());
         com.setSnapSize(new Dimension(10,10));
+        login.setVisible(true);
+        loading.setVisible(false);
         vIew_Image.setVisible(false);
-        home.setVisible(true);
+        home.setVisible(false);
         initEvent();
+        Service.getInstance().startService();
         
     }
     private void initEvent(){
+        PublicEvent.getInstance().addEventMain(new EventMain() {
+            @Override
+            public void showLoading(boolean show) {
+                loading.setVisible(show);
+                 }
+
+            @Override
+            public void initChat() {
+                home.setVisible(true);
+                }
+        });
         PublicEvent.getInstance().addEventImageView(new EventImageView() {
             @Override
             public void viewImage(Icon image) {
@@ -73,6 +87,8 @@ public class Main extends javax.swing.JFrame {
         cmdMinimize = new javax.swing.JButton();
         cmdClose = new javax.swing.JButton();
         body = new javax.swing.JLayeredPane();
+        loading = new com.grup30.form.Loading();
+        login = new com.grup30.form.Login();
         vIew_Image = new com.grup30.form.VIew_ımage();
         home = new com.grup30.form.Home();
 
@@ -136,6 +152,8 @@ public class Main extends javax.swing.JFrame {
         );
 
         body.setLayout(new java.awt.CardLayout());
+        body.add(loading, "card5");
+        body.add(login, "card4");
         body.setLayer(vIew_Image, javax.swing.JLayeredPane.POPUP_LAYER);
         body.add(vIew_Image, "card3");
         body.add(home, "card2");
@@ -205,35 +223,11 @@ public class Main extends javax.swing.JFrame {
         pY = evt.getY();
     }//GEN-LAST:event_titleMousePressed
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
+        FlatArcIJTheme.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Main().setVisible(true);
             }
@@ -247,6 +241,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton cmdClose;
     private javax.swing.JButton cmdMinimize;
     private com.grup30.form.Home home;
+    private com.grup30.form.Loading loading;
+    private com.grup30.form.Login login;
     private javax.swing.JPanel title;
     private com.grup30.form.VIew_ımage vIew_Image;
     // End of variables declaration//GEN-END:variables

@@ -2,9 +2,14 @@
 package com.grup30.component;
 
 import com.grup30.swing.ScrollBar;
+import java.awt.Adjustable;
 import java.awt.Color;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -17,17 +22,17 @@ public class Chat_Body extends javax.swing.JPanel {
     public Chat_Body() {
         initComponents();
         init();
-        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
-        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
-        addItemRight("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.png")));
-        addDate("25.12.2023");
-        String img[]={"L7ByNv%L00NG~VxaE1s:57WBxGt7","L7GIlK005@06~l9eI9?u-;-TIl~o"};
-        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",
-            new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")), new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")));
-        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",img);
-        addItemLeft("","Ahmet",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")) );
-        addItemFile("", "Dara", "my doc.pdf", "100 MB");
-        addItemFileRight("","my file.rar", "15 MB");
+  //      addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
+//        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
+       addItemRight("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.png")));
+//        addDate("25.12.2023");
+//        String img[]={"L7ByNv%L00NG~VxaE1s:57WBxGt7","L7GIlK005@06~l9eI9?u-;-TIl~o"};
+//        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",
+//            new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")), new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")));
+  //     addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",img);
+  //     addItemLeft("","Ahmet",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")) );
+//        addItemFile("", "Dara", "my doc.pdf", "100 MB");
+//        addItemFileRight("","my file.rar", "15 MB");
     }   
         
     
@@ -73,10 +78,11 @@ public class Chat_Body extends javax.swing.JPanel {
         Chat_Right item = new Chat_Right();
         item.setText(text);
         item.setImage(image);
-        item.setTime();
         body.add(item,"wrap,al right, w :: 80% ");
         body.repaint();
         body.revalidate();
+        item.setTime();
+        scrollToBottom();
     }
     
     public void addItemFileRight(String text, String fileName, String fileSize){
@@ -135,6 +141,18 @@ public class Chat_Body extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void scrollToBottom() {
+    JScrollBar verticalBar = sp.getVerticalScrollBar();
+    AdjustmentListener downScroller = new AdjustmentListener() {
+        @Override
+        public void adjustmentValueChanged(AdjustmentEvent e) {
+            Adjustable adjustable = e.getAdjustable();
+            adjustable.setValue(adjustable.getMaximum());
+            verticalBar.removeAdjustmentListener(this);
+        }
+    };
+    verticalBar.addAdjustmentListener(downScroller);
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel body;

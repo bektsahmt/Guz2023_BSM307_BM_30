@@ -67,7 +67,7 @@ public class Login extends javax.swing.JPanel {
        P_Login login=new P_Login();
        P_Register register=new P_Register();
        slide.init(login,register);
-       
+       //bu slide kısmını videodan çözeriz paket kaynaklı değil 
    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

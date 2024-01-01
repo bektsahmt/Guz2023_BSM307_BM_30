@@ -6,6 +6,7 @@ import com.grup30.event.EventMessage;
 import com.grup30.event.PublicEvent;
 import com.grup30.model.Model_Message;
 import com.grup30.model.Model_Register;
+import com.grup30.model.Model_User_Account;
 import com.grup30.service.Service;
 import io.socket.client.Ack;
 
@@ -47,7 +48,10 @@ public class Login extends javax.swing.JPanel {
                         if(os.length > 0){
                             Model_Message ms = new Model_Message((boolean) os[0], os[1].toString());
                             message.callMessage(ms);
-                         
+                            if(ms.isAction()){
+                                Model_User_Account user = new Model_User_Account(os[2]);
+                                Service.getInstance().setUser(user);
+                            }
                         }
                     }
                 });      

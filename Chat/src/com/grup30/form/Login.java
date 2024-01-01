@@ -2,7 +2,12 @@
 package com.grup30.form;
 
 import com.grup30.event.EventLogin;
+import com.grup30.event.EventMessage;
 import com.grup30.event.PublicEvent;
+import com.grup30.model.Model_Message;
+import com.grup30.model.Model_Register;
+import com.grup30.service.Service;
+import io.socket.client.Ack;
 
 /**
  *
@@ -35,8 +40,18 @@ public class Login extends javax.swing.JPanel {
             }
 
             @Override
-            public void register() {
-                System.out.println("Register");
+            public void register(Model_Register data, EventMessage message) {
+                Service.getInstance().getClient().emit("register", data.toJsonObject(), new Ack(){
+                    @Override
+                    public void call(Object... os){
+                        if(os.length > 0){
+                            Model_Message ms = new Model_Message((boolean) os[0], os[1].toString());
+                            message.callMessage(ms);
+                         
+                        }
+                    }
+                });      
+            
             }
 
             @Override

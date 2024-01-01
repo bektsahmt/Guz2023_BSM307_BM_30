@@ -9,6 +9,7 @@ import com.formdev.flatlaf.intellijthemes.FlatArcIJTheme;
 import com.grup30.event.EventImageView;
 import com.grup30.event.EventMain;
 import com.grup30.event.PublicEvent;
+import com.grup30.service.Service;
 import com.grup30.swing.ComponentResizer;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -44,6 +45,7 @@ public class Main extends javax.swing.JFrame {
         loading.setVisible(false);
         home.setVisible(false);
         initEvent();
+        Service.getInstance().startServer();
         
     }
     

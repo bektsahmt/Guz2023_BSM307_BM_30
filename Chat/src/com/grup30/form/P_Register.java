@@ -1,7 +1,10 @@
 
 package com.grup30.form;
 
+import com.grup30.event.EventMessage;
 import com.grup30.event.PublicEvent;
+import com.grup30.model.Model_Message;
+import com.grup30.model.Model_Register;
 
 /**
  *
@@ -30,6 +33,7 @@ public class P_Register extends javax.swing.JPanel {
         cmdBackLogin = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         txtRepass = new javax.swing.JPasswordField();
+        lbError = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(249, 321));
@@ -63,6 +67,10 @@ public class P_Register extends javax.swing.JPanel {
 
         jLabel3.setText("Parolayı doğrula");
 
+        lbError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lbError.setForeground(new java.awt.Color(255, 51, 51));
+        lbError.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,6 +88,10 @@ public class P_Register extends javax.swing.JPanel {
                     .addComponent(txtUser, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtRepass, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbError, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -102,7 +114,9 @@ public class P_Register extends javax.swing.JPanel {
                 .addComponent(cmdRegister)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cmdBackLogin)
-                .addGap(34, 34, 34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbError, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -111,7 +125,31 @@ public class P_Register extends javax.swing.JPanel {
     }//GEN-LAST:event_cmdBackLoginActionPerformed
 
     private void cmdRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRegisterActionPerformed
-        PublicEvent.getInstance().getEventLogin().register();
+        String userName = txtUser.getText().trim();
+        String password = String.valueOf(txtPass.getPassword());
+        String confirmPassword = String.valueOf(txtRepass.getPassword());
+        
+        if(userName.equals("")){
+            txtUser.grabFocus();
+        } else if (password.equals("")) {
+            txtPass.grabFocus();
+        } else if(!password.equals(confirmPassword)){
+            txtPass.grabFocus();
+        } else  {
+            Model_Register data = new Model_Register(userName, password);
+            PublicEvent.getInstance().getEventLogin().register(data, new EventMessage() {
+                @Override
+                public void callMessage(Model_Message message) {
+                   if(!message.isAction()){
+                       lbError.setText(message.getMessage());
+                   } else {
+                       PublicEvent.getInstance().getEventLogin().login();
+                   }
+                }
+            });
+        }
+
+        
     }//GEN-LAST:event_cmdRegisterActionPerformed
 
 
@@ -121,6 +159,7 @@ public class P_Register extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lbError;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JPasswordField txtPass;
     private javax.swing.JPasswordField txtRepass;

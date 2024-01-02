@@ -1,6 +1,9 @@
 
 package com.grup30.component;
 
+import com.grup30.model.Model_Recieve_Message;
+import com.grup30.model.Model_Send_Message;
+import com.grup30.model.Model_User_Account;
 import com.grup30.swing.ScrollBar;
 import java.awt.Adjustable;
 import java.awt.Color;
@@ -22,17 +25,7 @@ public class Chat_Body extends javax.swing.JPanel {
     public Chat_Body() {
         initComponents();
         init();
-  //      addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
-//        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet");
-       addItemRight("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.png")));
-//        addDate("25.12.2023");
-//        String img[]={"L7ByNv%L00NG~VxaE1s:57WBxGt7","L7GIlK005@06~l9eI9?u-;-TIl~o"};
-//        addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",
-//            new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")), new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")));
-  //     addItemLeft("Merhabalar! LDJKSFKJDFHGKJDFHGKDJHFGKJDFHGKJHDFKGJHDKFJHGKDJHFGKJDHFGKJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ","Ahmet",img);
-  //     addItemLeft("","Ahmet",new ImageIcon(getClass().getResource("/com/grup30/icons/cat.jpeg")) );
-//        addItemFile("", "Dara", "my doc.pdf", "100 MB");
-//        addItemFileRight("","my file.rar", "15 MB");
+        
     }   
         
     
@@ -42,15 +35,13 @@ public class Chat_Body extends javax.swing.JPanel {
         sp.getVerticalScrollBar().setBackground(Color.WHITE);
     }
     
-    public void addItemLeft(String text, String user,Icon... image){
-        Chat_Left_With_Profile item = new Chat_Left_With_Profile();
-        item.setText(text);
-        item.setImage(image);
+    public void addItemLeft(Model_Recieve_Message data){
+        Chat_Left item = new Chat_Left();
+        item.setText(data.getText());
         item.setTime();
-        item.setUserProfile(user);
         body.add(item,"wrap, w :: 80% ");
-        body.repaint();
-        body.revalidate();
+        repaint();
+        revalidate();
     }
      public void addItemLeft(String text, String user,String[] image){
         Chat_Left_With_Profile item = new Chat_Left_With_Profile();
@@ -74,13 +65,12 @@ public class Chat_Body extends javax.swing.JPanel {
         body.revalidate();
     }
      
-    public void addItemRight(String text, Icon... image){
+    public void addItemRight(Model_Send_Message data){
         Chat_Right item = new Chat_Right();
-        item.setText(text);
-        item.setImage(image);
+        item.setText(data.getText());
         body.add(item,"wrap,al right, w :: 80% ");
-        body.repaint();
-        body.revalidate();
+        repaint();
+        revalidate();
         item.setTime();
         scrollToBottom();
     }
@@ -103,7 +93,11 @@ public class Chat_Body extends javax.swing.JPanel {
         body.revalidate();
     }
     
-    
+    public void clearChat(){
+        body.removeAll();
+        repaint();
+        revalidate();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

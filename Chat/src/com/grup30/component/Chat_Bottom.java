@@ -2,7 +2,9 @@
 package com.grup30.component;
 
 import com.grup30.event.PublicEvent;
+import com.grup30.model.Model_Send_Message;
 import com.grup30.model.Model_User_Account;
+import com.grup30.service.Service;
 import com.grup30.swing.JIMSendTextPane;
 import com.grup30.swing.ScrollBar;
 import java.awt.Color;
@@ -15,7 +17,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
@@ -77,7 +78,9 @@ public class Chat_Bottom extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent ae){
             String text = txt.getText().trim();
             if(!text.equals("")){
-                PublicEvent.getInstance().getEventChat().sendMessage(text);     
+                Model_Send_Message message = new Model_Send_Message(Service.getInstance().getUser().getUserID(), user.getUserID(),text);
+                send(message);
+                PublicEvent.getInstance().getEventChat().sendMessage(message);     
                 txt.setText("");
                 txt.grabFocus();
                 refresh();
@@ -90,8 +93,13 @@ public class Chat_Bottom extends javax.swing.JPanel {
         panel.add(cmd);
         add(panel);
     }
+    
+    private void send(Model_Send_Message data){
+        Service.getInstance().getClient().emit("send_to_user", data.toJsonObject());
+    }
+    
     private void refresh(){
-        
+        revalidate();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

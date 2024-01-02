@@ -7,6 +7,7 @@ package com.grup30.service;
  */
 
 import com.grup30.event.PublicEvent;
+import com.grup30.model.Model_Recieve_Message;
 import com.grup30.model.Model_User_Account;
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -64,6 +65,13 @@ public class Service {
                         //Bağlantı koparılma
                         PublicEvent.getInstance().getEventMenuLeft().userDisconnect(userID);
                     }
+                }
+            });
+            client.on("recieve_ms", new Emitter.Listener() {
+                @Override
+                public void call(Object... os) {
+                    Model_Recieve_Message message = new Model_Recieve_Message(os[0]);
+                    PublicEvent.getInstance().getEventChat().revieceMessage(message);
                 }
             });
             client.open();

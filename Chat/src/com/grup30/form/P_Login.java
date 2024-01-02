@@ -5,6 +5,7 @@
 package com.grup30.form;
 
 import com.grup30.event.PublicEvent;
+import com.grup30.model.Model_Login;
 
 /**
  *
@@ -109,7 +110,7 @@ public class P_Login extends javax.swing.JPanel {
 
     private void cmdLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdLoginActionPerformed
         
-        PublicEvent.getInstance().getEventLogin().login();
+        PublicEvent.getInstance().getEventLogin().login(new Model_Login(txtUser.getText(), String.valueOf(txtPass.getPassword())));
         
     }//GEN-LAST:event_cmdLoginActionPerformed
 

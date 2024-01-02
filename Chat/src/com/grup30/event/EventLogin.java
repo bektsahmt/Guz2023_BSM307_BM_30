@@ -1,6 +1,7 @@
 
 package com.grup30.event;
 
+import com.grup30.model.Model_Login;
 import com.grup30.model.Model_Register;
 
 /**
@@ -9,7 +10,7 @@ import com.grup30.model.Model_Register;
  */
 public interface EventLogin {
     
-    public void login();
+    public void login(Model_Login data);
 
     public void register(Model_Register data, EventMessage message);
 

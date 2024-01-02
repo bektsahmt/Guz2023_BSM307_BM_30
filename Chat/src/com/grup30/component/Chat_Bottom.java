@@ -2,6 +2,7 @@
 package com.grup30.component;
 
 import com.grup30.event.PublicEvent;
+import com.grup30.model.Model_User_Account;
 import com.grup30.swing.JIMSendTextPane;
 import com.grup30.swing.ScrollBar;
 import java.awt.Color;
@@ -26,6 +27,16 @@ import net.miginfocom.swing.MigLayout;
 public class Chat_Bottom extends javax.swing.JPanel {
 
     
+    public Model_User_Account getUser() {
+        return user;
+    }
+
+    
+    public void setUser(Model_User_Account user) {
+        this.user = user;
+    }
+
+    private Model_User_Account user;
     public Chat_Bottom() {
         initComponents();
         init();

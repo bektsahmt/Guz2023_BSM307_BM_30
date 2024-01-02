@@ -1,6 +1,7 @@
 
 package com.grup30.component;
 
+import com.grup30.model.Model_User_Account;
 import java.awt.Color;
 
 /**
@@ -9,21 +10,44 @@ import java.awt.Color;
  */
 public class Chat_Title extends javax.swing.JPanel {
 
+   
+    public Model_User_Account getUser() {
+        return user;
+    }
+
+    private Model_User_Account user;
     
     public Chat_Title() {
         initComponents();
     }
     
-    public void setUsername(String username){
-        lblName.setText(username);
+    public void setUserName(Model_User_Account user){
+        this.user = user;
+        lblName.setText(user.getUserName());
+        if(user.isStatus()){
+            statusActive();
+        } else{
+            setStatusText("Çevrimdışı");
+        }
     }
     
-    public void statusActive(){
+    public void updateUser(Model_User_Account user){
+        if(this.user == user){
+            lblName.setText(user.getUserName());
+            if(user.isStatus()){
+            statusActive();
+        } else{
+            setStatusText("Çevrimdışı");
+        }
+        }
+    }
+    
+    private void statusActive(){
         lblStatus.setText("Çevrimiçi");
         lblStatus.setForeground(new java.awt.Color(40,147,59));
     }
     
-    public void setStatusText(String text){
+    private void setStatusText(String text){
         lblStatus.setText(text);
         lblStatus.setForeground(new Color(160,160,160));
     }

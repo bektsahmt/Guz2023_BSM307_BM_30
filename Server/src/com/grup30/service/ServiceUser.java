@@ -1,6 +1,7 @@
 package com.grup30.service;
 
 import com.grup30.connection.DatabaseConnection;
+import com.grup30.model.Model_Client;
 import com.grup30.model.Model_Login;
 import com.grup30.model.Model_Message;
 import com.grup30.model.Model_Register;
@@ -95,11 +96,21 @@ public class ServiceUser {
         while (r.next()) {
             int userID = r.getInt(1);
             String userName = r.getString(2);
-            list.add(new Model_User_Account(userID, userName,true));
+            list.add(new Model_User_Account(userID, userName, checkUserStatus(userID)));
         }
         r.close();
         p.close();
         return list;
+    }
+    
+    private boolean checkUserStatus(int userID){
+        List<Model_Client> clients = Service.getInstance(null).getListClient();
+        for(Model_Client c: clients){
+            if(c.getUser().getUserID() == userID){
+                return true;
+            }
+        }
+        return false;
     }
 
     //  SQL

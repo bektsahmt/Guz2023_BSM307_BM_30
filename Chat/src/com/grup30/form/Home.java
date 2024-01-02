@@ -17,11 +17,10 @@ public class Home extends javax.swing.JLayeredPane {
     }
     
     private void init(){
-        setLayout(new MigLayout("fillx, filly","0[160!]5[fill, 100%]5[160!]0","0[fill]0"));
+        setLayout(new MigLayout("fillx, filly","0[160!]5[fill, 100%]5[]0","0[fill]0"));
         this.add(new Menu_left());
         chat = new Chat();
         this.add(chat);
-        this.add(new Menu_right());
         chat.setVisible(false);
     }
 

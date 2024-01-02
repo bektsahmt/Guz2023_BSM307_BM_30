@@ -7,6 +7,7 @@ import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
+import com.grup30.model.Model_Login;
 import com.grup30.model.Model_Message;
 import com.grup30.model.Model_Register;
 import com.grup30.model.Model_User_Account;
@@ -57,6 +58,17 @@ public class Service {
                 if(message.isAction()){
                     textArea.append("User has Register :" + t.getUserName() + " Pass :" + t.getPassword() + "\n");
                     server.getBroadcastOperations().sendEvent("list_user", (Model_User_Account)message.getData());
+                }
+            }
+        });
+        server.addEventListener("login", Model_Login.class, new DataListener<Model_Login>() {
+            @Override
+            public void onData(SocketIOClient sioc, Model_Login t, AckRequest ar) throws Exception {
+                Model_User_Account login = serviceUser.login(t);
+                if(login != null){
+                    ar.sendAckData(true, login);
+                } else {
+                    ar.sendAckData(false);
                 }
             }
         });

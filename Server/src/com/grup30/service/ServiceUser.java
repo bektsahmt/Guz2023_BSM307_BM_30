@@ -1,6 +1,7 @@
 package com.grup30.service;
 
 import com.grup30.connection.DatabaseConnection;
+import com.grup30.model.Model_Login;
 import com.grup30.model.Model_Message;
 import com.grup30.model.Model_Register;
 import com.grup30.model.Model_User_Account;
@@ -70,6 +71,22 @@ public class ServiceUser {
         return message;
     }
     
+    public Model_User_Account login(Model_Login login) throws SQLException{
+        Model_User_Account data = null;
+        PreparedStatement p = con.prepareStatement(LOGIN);
+        p.setString(1, login.getUserName());
+        p.setString(2, login.getPassword());
+        ResultSet r = p.executeQuery();
+        if(r.next()){ // first()
+            int userID = r.getInt(1);
+            String userName = r.getString(2);
+            data = new Model_User_Account(userID, userName, true);
+        }
+        r.close();
+        p.close();
+        return data;
+    }
+    
     public List<Model_User_Account> getUser(int existUser) throws SQLException{
         List<Model_User_Account> list = new ArrayList<>();
         PreparedStatement p = con.prepareStatement(SELECT_USER_ACCOUNT);
@@ -86,6 +103,7 @@ public class ServiceUser {
     }
 
     //  SQL
+    private final String LOGIN = "select UserID, user_account.UserName from `user` join user_account using (UserID) where `user`.UserName=BINARY(?) and `user`.`Password`=BINARY(?) and user_account.`Status`='1'";
     private final String SELECT_USER_ACCOUNT = "select UserID, UserName from user_account where user_account.`Status`='1' and UserID<>?";
     private final String INSERT_USER = "insert into user (UserName, `Password`) values (?,?)";
     private final String INSERT_USER_ACCOUNT = "insert into user_account (UserID, UserName) values(?,?)";

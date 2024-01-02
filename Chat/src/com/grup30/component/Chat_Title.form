@@ -3,7 +3,7 @@
 <Form version="1.9" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-      <Color blue="f3" green="ee" red="f8" type="rgb"/>
+      <Color blue="ea" green="e8" red="de" type="rgb"/>
     </Property>
   </Properties>
   <AuxValues>
@@ -22,8 +22,8 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="layer" pref="370" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="layer" pref="403" max="32767" attributes="0"/>
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -40,6 +40,9 @@
   <SubComponents>
     <Container class="javax.swing.JLayeredPane" name="layer">
       <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ea" green="e8" red="de" type="rgb"/>
+        </Property>
         <Property name="opaque" type="boolean" value="true"/>
       </Properties>
 

@@ -61,8 +61,9 @@ public class Chat_Title extends javax.swing.JPanel {
         lblName = new javax.swing.JLabel();
         lblStatus = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(248, 238, 243));
+        setBackground(new java.awt.Color(222, 232, 234));
 
+        layer.setBackground(new java.awt.Color(222, 232, 234));
         layer.setOpaque(true);
         layer.setLayout(new java.awt.GridLayout(0, 1));
 
@@ -80,8 +81,8 @@ public class Chat_Title extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(layer, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
+                .addGap(15, 15, 15)
+                .addComponent(layer, javax.swing.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                 .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(

@@ -90,22 +90,7 @@ public class Menu_left extends javax.swing.JPanel {
         refreshMenu();
     }
     
-    private void showGroup(){
-        menuList.removeAll();
-        for (int i = 0; i < 5; i++) {
-            menuList.add(new Item_People(null), "wrap");
-        }
-        refreshMenu();
-    }
-    
-    private void showBox(){
-        menuList.removeAll();
-        for (int i = 0; i < 8; i++) {
-            menuList.add(new Item_People(null), "wrap");
-        }
-        refreshMenu();
-    }
-    
+ 
     private void refreshMenu(){
         menuList.repaint();
         menuList.revalidate();
@@ -118,8 +103,6 @@ public class Menu_left extends javax.swing.JPanel {
 
         menu = new javax.swing.JLayeredPane();
         menuMessage = new com.grup30.component.MenuButton();
-        menuGroup = new com.grup30.component.MenuButton();
-        menuBox = new com.grup30.component.MenuButton();
         sp = new javax.swing.JScrollPane();
         menuList = new javax.swing.JLayeredPane();
 
@@ -140,30 +123,6 @@ public class Menu_left extends javax.swing.JPanel {
             }
         });
         menu.add(menuMessage);
-
-        menuGroup.setBorder(null);
-        menuGroup.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/grup30/icons/group.png"))); // NOI18N
-        menuGroup.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/com/grup30/icons/group_selected.png"))); // NOI18N
-        menuGroup.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/grup30/icons/group.png"))); // NOI18N
-        menuGroup.setMaximumSize(new java.awt.Dimension(55, 55));
-        menuGroup.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuGroupActionPerformed(evt);
-            }
-        });
-        menu.add(menuGroup);
-
-        menuBox.setBorder(null);
-        menuBox.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/grup30/icons/box.png"))); // NOI18N
-        menuBox.setIconSelected(new javax.swing.ImageIcon(getClass().getResource("/com/grup30/icons/box_selected.png"))); // NOI18N
-        menuBox.setIconSimple(new javax.swing.ImageIcon(getClass().getResource("/com/grup30/icons/box.png"))); // NOI18N
-        menuBox.setMaximumSize(new java.awt.Dimension(55, 55));
-        menuBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuBoxActionPerformed(evt);
-            }
-        });
-        menu.add(menuBox);
 
         sp.setBackground(new java.awt.Color(244, 244, 244));
         sp.setBorder(null);
@@ -208,36 +167,14 @@ public class Menu_left extends javax.swing.JPanel {
 
     private void menuMessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuMessageActionPerformed
         if(!menuMessage.isSelected()){
-            menuMessage.setSelected(true);
-            menuGroup.setSelected(false);
-            menuBox.setSelected(false);
+            menuMessage.setSelected(true);         
             showMessage();
         }
     }//GEN-LAST:event_menuMessageActionPerformed
 
-    private void menuGroupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuGroupActionPerformed
-        if(!menuGroup.isSelected()){
-            menuMessage.setSelected(false);
-            menuGroup.setSelected(true);
-            menuBox.setSelected(false);
-            showGroup();
-        }
-    }//GEN-LAST:event_menuGroupActionPerformed
-
-    private void menuBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuBoxActionPerformed
-        if(!menuBox.isSelected()){
-            menuMessage.setSelected(false);
-            menuGroup.setSelected(false);
-            menuBox.setSelected(true);
-            showBox();
-        }
-    }//GEN-LAST:event_menuBoxActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLayeredPane menu;
-    private com.grup30.component.MenuButton menuBox;
-    private com.grup30.component.MenuButton menuGroup;
     private javax.swing.JLayeredPane menuList;
     private com.grup30.component.MenuButton menuMessage;
     private javax.swing.JScrollPane sp;

@@ -11,7 +11,9 @@ import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.grup30.model.Model_Client;
 import com.grup30.model.Model_Login;
 import com.grup30.model.Model_Message;
+import com.grup30.model.Model_Recieve_Message;
 import com.grup30.model.Model_Register;
+import com.grup30.model.Model_Send_Message;
 import com.grup30.model.Model_User_Account;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +95,13 @@ public class Service {
                 }
             }
         });
+        server.addEventListener("send_to_user", Model_Send_Message.class, new DataListener<Model_Send_Message>() {
+            @Override
+            public void onData(SocketIOClient sioc, Model_Send_Message t, AckRequest ar) throws Exception {
+                sendToClient(t);
+                
+            }
+        });
         server.addDisconnectListener(new DisconnectListener() {
             @Override
             public void onDisconnect(SocketIOClient sioc) {
@@ -116,6 +125,15 @@ public class Service {
     
     private void addClient(SocketIOClient client, Model_User_Account user){
         listClient.add(new Model_Client(client, user));
+    }
+    
+    private void sendToClient(Model_Send_Message data){
+        for(Model_Client c:listClient){
+            if(c.getUser().getUserID() == data.getToUserID()){
+                c.getClient().sendEvent("recieve_ms", new Model_Recieve_Message(data.getFromUserID(), data.getText()));
+                break;
+            }
+        }
     }
     
     public int removeClient(SocketIOClient client){

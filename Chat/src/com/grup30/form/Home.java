@@ -8,15 +8,15 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author ahmet
  */
-public class Home extends javax.swing.JLayeredPane {
-
+public class Home extends javax.swing.JLayeredPane { 
+                                                     
     private Chat chat;
     public Home() {
         initComponents();
         init();
     }
     
-    private void init(){
+    private void init(){ //Menünün sağ kısmını ve chati ekler.
         setLayout(new MigLayout("fillx, filly","0[160!]5[fill, 100%]5[]0","0[fill]0"));
         this.add(new Menu_left());
         chat = new Chat();
@@ -24,12 +24,12 @@ public class Home extends javax.swing.JLayeredPane {
         chat.setVisible(false);
     }
 
-    public void setUser(Model_User_Account user){
-        chat.setUser(user);
+    public void setUser(Model_User_Account user){ 
+        chat.setUser(user); //Belirtilen kullanıcı bilgisinin eklenmesi
         chat.setVisible(true);
     }
     
-    public void updateUser(Model_User_Account user){
+    public void updateUser(Model_User_Account user){ //Kullanıcı bilgisinin yenilenmesi
         chat.updateUser(user);
     }
     

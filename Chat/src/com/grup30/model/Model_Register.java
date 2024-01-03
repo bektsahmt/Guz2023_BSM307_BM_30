@@ -7,7 +7,8 @@ package com.grup30.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Model_Register {
+public class Model_Register { //Kullanıcı kaydı ile ilgili verileri temsil etmek ve bu verileri JSON formatına dönüştürmek
+                              //için kullanılacak.
 
     public String getUserName() {
         return userName;

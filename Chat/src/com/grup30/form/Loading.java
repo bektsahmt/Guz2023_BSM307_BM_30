@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
  * @author ahmet
  */
 public class Loading extends javax.swing.JComponent {
-
+    //Loading ekranın gelmesi
     
     public Loading() {
         initComponents();

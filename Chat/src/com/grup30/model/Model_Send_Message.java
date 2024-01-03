@@ -8,8 +8,8 @@ import org.json.JSONObject;
  *
  * @author ahmet
  */
-public class Model_Send_Message {
-
+public class Model_Send_Message { //Gönderici ve alıcı id'lerini ve text'i içeriyor. Kullanıcı tarafından gönderilen mesajı temsil eder
+                                  //Mesaj gönderme için gerekli olan verileri Json formatında temsil ediyor.
     
     public int getFromUserID() {
         return fromUserID;

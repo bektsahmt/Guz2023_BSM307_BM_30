@@ -8,7 +8,7 @@ import org.json.JSONObject;
  *
  * @author ahmet
  */
-public class Model_Login {
+public class Model_Login { //Kullanıcı giriş bilgilerini içeren bir model sınıfı
 
     
     public String getUserName() {
@@ -41,7 +41,8 @@ public class Model_Login {
     
     private String userName;
     private String password;
-    public JSONObject toJsonObject(){
+    
+    public JSONObject toJsonObject(){ //JSONObject 
         try {
             JSONObject obj = new JSONObject();
             obj.put("userName",userName);

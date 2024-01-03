@@ -7,6 +7,6 @@ import com.grup30.model.Model_Message;
  *
  * @author ahmet
  */
-public interface EventMessage {
-    public void callMessage(Model_Message message);
+public interface EventMessage { //Mesajın olaylarını yönetecek.
+    public void callMessage(Model_Message message); //bir mesaj gönderilmesini veya yönetilmesini sağlayacak.
 }

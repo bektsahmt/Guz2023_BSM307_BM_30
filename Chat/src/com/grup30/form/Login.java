@@ -23,25 +23,25 @@ public class Login extends javax.swing.JPanel {
     }
 
     private void init(){
-        PublicEvent.getInstance().addEventLogin(new EventLogin() {
+        PublicEvent.getInstance().addEventLogin(new EventLogin() { //Giriş yapma eylemi
             @Override
             public void login(Model_Login data) {
                 new Thread(new Runnable(){
                     @Override
                     public void run() {
                         PublicEvent.getInstance().getEventMain().showLoading(true);
-                        Service.getInstance().getClient().emit("login", data.toJsonObject(), new Ack(){
-                            @Override
-                            public void call(Object... os) {
-                                if(os.length > 0){
+                        Service.getInstance().getClient().emit("login", data.toJsonObject(), new Ack(){ //Sunucudan yanıt beklendiği için Ack
+                            @Override                                                                   // geri çağrısı kullanılıyor.
+                            public void call(Object... os) {            
+                                if(os.length > 0){ // Yanıt var mı?
                                     boolean action = (Boolean)os[0];
-                                    if(action){
-                                        Service.getInstance().setUser(new Model_User_Account(os[1]));
+                                    if(action){ //Eğer işlem başarılıysa
+                                        Service.getInstance().setUser(new Model_User_Account(os[1])); //Kullanıcı bilgilerini al
                                         PublicEvent.getInstance().getEventMain().showLoading(false);
-                                        PublicEvent.getInstance().getEventMain().initChat();
+                                        PublicEvent.getInstance().getEventMain().initChat(); //chat ekranını aç
                                     } else {
                                         //şifre yanlışsa
-                                        PublicEvent.getInstance().getEventMain().showLoading(false);
+                                        PublicEvent.getInstance().getEventMain().showLoading(false); 
                                     }
                                 } else {
                                     PublicEvent.getInstance().getEventMain().showLoading(false);
@@ -56,16 +56,16 @@ public class Login extends javax.swing.JPanel {
 
             @Override
             public void register(Model_Register data, EventMessage message) {
-                Service.getInstance().getClient().emit("register", data.toJsonObject(), new Ack(){
-                    @Override
+                Service.getInstance().getClient().emit("register", data.toJsonObject(), new Ack(){ 
+                    @Override //data nesnesi JSON formatına dönüştürülerek iletiliyor. tetiklenen olay sunucuya kayıt talebi gönderiliyor
                     public void call(Object... os){
-                        if(os.length > 0){
-                            Model_Message ms = new Model_Message((boolean) os[0], os[1].toString());
+                        if(os.length > 0){ //Geri dönüş varsa 
+                            Model_Message ms = new Model_Message((boolean) os[0], os[1].toString()); 
                             if(ms.isAction()){
-                                Model_User_Account user = new Model_User_Account(os[2]);
+                                Model_User_Account user = new Model_User_Account(os[2]); // kullanıcı bilgileri
                                 Service.getInstance().setUser(user);
                             }
-                            message.callMessage(ms);
+                            message.callMessage(ms); //event listener'a bu mesajın iletilmesi
                         }
                     }
                 });      
@@ -74,12 +74,12 @@ public class Login extends javax.swing.JPanel {
 
             @Override
             public void goRegister() {
-                slide.show(1); //PanelSlide'dan show alınıyor
+                slide.show(1); //Ana ekranda kayıt ol kısmı açılsın
             }
 
             @Override
             public void goLogin() {
-                slide.show(0);
+                slide.show(0); //Ana ekranda giriş kısmı açılsın
             }
         });
         P_Login login = new P_Login();

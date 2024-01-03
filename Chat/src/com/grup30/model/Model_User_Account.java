@@ -1,6 +1,5 @@
 package com.grup30.model;
 
-import java.time.Clock;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -9,7 +8,7 @@ import org.json.JSONObject;
  * @author ahmet
  */
 
-public class Model_User_Account {
+public class Model_User_Account { //Bir kullanıcı hesabını temsil eder id,username ve aktiflik statüsü bilgilerini içerir.
 
     public int getUserID() {
         return userID;

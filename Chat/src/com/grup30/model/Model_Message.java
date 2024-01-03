@@ -4,7 +4,7 @@ package com.grup30.model;
  *
  * @author ahmet
  */
-public class Model_Message {
+public class Model_Message { //Bir eylemi temsil eden action ile eylemle ilgili mesajı içeren bir model sınıfı
 
     public boolean isAction() {
         return action;

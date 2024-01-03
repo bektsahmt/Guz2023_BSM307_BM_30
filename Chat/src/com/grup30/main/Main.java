@@ -33,10 +33,6 @@ public class Main extends javax.swing.JFrame {
     }
     
     private void init(){
-        /* 
-        Ikon resmi gelince burasi aktif edilecek
-        */
-        //setIconImage(new ImageIcon(getClass().getResource("/com/grup30/icon/icon.png")).getImage());
         ComponentResizer com = new ComponentResizer();
         com.registerComponent(this);
         com.setMinimumSize(new Dimension(900,500));
@@ -50,7 +46,7 @@ public class Main extends javax.swing.JFrame {
         
     }
     
-    private void initEvent(){
+    private void initEvent(){ //uygulamanın ana eventleri yönetiliyor
         PublicEvent.getInstance().addEventMain(new EventMain() {
             @Override
             public void showLoading(boolean show) {
@@ -58,19 +54,19 @@ public class Main extends javax.swing.JFrame {
             }
 
             @Override
-            public void initChat() {
+            public void initChat() { //Sohbet penceresi başlatılması
                 home.setVisible(true);
                 login.setVisible(false);
                 Service.getInstance().getClient().emit("list_user", Service.getInstance().getUser().getUserID());
             }
 
             @Override
-            public void selectUser(Model_User_Account user) {
+            public void selectUser(Model_User_Account user) { //Kullanıcı seçimi
                 home.setUser(user);
             }
 
             @Override
-            public void updateUser(Model_User_Account user) {
+            public void updateUser(Model_User_Account user) { //Kullanıcı güncellemesi
                 home.updateUser(user);
             }
             

@@ -27,60 +27,60 @@ public class Service {
     private Model_User_Account user;
     
 
-    public static Service getInstance() {
+    public static Service getInstance() { 
         if (instance == null) {
-            instance = new Service();
+            instance = new Service(); //Service sınıfının yeni bir örneği instance değişkenine atanır.
         }
-        return instance;
+        return instance; //instance nesnesi dönecek 
     }
 
-    private Service() {
+    private Service() { //Dışarıdan nesne oluşturulmasını engeller.
     }
 
     public void startServer() {
         try {
-            client = IO.socket("http://" + IP + ":" + PORT_NUMBER);
-            client.on("list_user", new Emitter.Listener() {
+            client = IO.socket("http://" + IP + ":" + PORT_NUMBER); //Sunucuya bağlantı kurmak için soket nesnesi oluşturuldu
+            client.on("list_user", new Emitter.Listener() { //"list_user" olayı dinlendi, sunucudan tetiklenmesi bekleniyor
                 @Override
-                public void call(Object... os) {
+                public void call(Object... os) { // Tetikleneceği zaman çalışacağı kısım
                     List<Model_User_Account> users = new ArrayList<>();
-                    for(Object o:os){
+                    for(Object o:os){ 
                         Model_User_Account u = new Model_User_Account(o);
-                        if(u.getUserID() != user.getUserID()){
-                            users.add(u);
+                        if(u.getUserID() != user.getUserID()){ //userID kontrolü yapılacak aynı değilse
+                            users.add(u); //Eğer kullanıcı farklı ise bu yeni bir kullanıcı ise users listesine eklenecek.
                         }
                     }
-                    PublicEvent.getInstance().getEventMenuLeft().newUser(users);
+                    PublicEvent.getInstance().getEventMenuLeft().newUser(users); //Yeni kullanıcı sol tarafa eklendi
                 }
             });
-            client.on("user_status", new Emitter.Listener() {
+            client.on("user_status", new Emitter.Listener() { //"user_status" olayı dinlendi, sunucudan tetiklenmesi bekleniyor.
                 @Override
-                public void call(Object... os) {
-                    int userID = (Integer) os[0];
-                    boolean status = (Boolean) os[1];
-                    if(status){
+                public void call(Object... os) { //os sunucudan gönderilen verileri içerir
+                    int userID = (Integer) os[0]; //ilk veri userID
+                    boolean status = (Boolean) os[1]; //ikinci veri aktiflik statüsü
+                    if(status){ //true ise kullanıcı bağlı kabul edilecek
                         //Bağlan
                         PublicEvent.getInstance().getEventMenuLeft().userConnect(userID);
-                    } else {
-                        //Bağlantı koparılma
+                    } else { //false ise bağlı değil kabul edilecek
+                        //Bağlantı kopuk
                         PublicEvent.getInstance().getEventMenuLeft().userDisconnect(userID);
                     }
                 }
             });
-            client.on("recieve_ms", new Emitter.Listener() {
+            client.on("recieve_ms", new Emitter.Listener() { //Kullanıcıdan mesaj alınmasını sağlar.
                 @Override
                 public void call(Object... os) {
                     Model_Recieve_Message message = new Model_Recieve_Message(os[0]);
-                    PublicEvent.getInstance().getEventChat().revieceMessage(message);
+                    PublicEvent.getInstance().getEventChat().recieveMessage(message);
                 }
             });
-            client.open();
+            client.open(); //İstemcinin sunucuya bağlanması sağlanır.
         } catch (URISyntaxException e) {
             error(e);
         }
     }
 
-    public Socket getClient() {
+    public Socket getClient() { //Başka bir sınıf kullanarak sunucuya veri gönderme, olay dinleme yapabilir.
         return client;
     }
     

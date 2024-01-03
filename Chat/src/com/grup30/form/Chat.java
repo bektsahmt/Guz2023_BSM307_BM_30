@@ -13,31 +13,31 @@ import net.miginfocom.swing.MigLayout;
  *
  * @author ahmet
  */
-public class Chat extends javax.swing.JPanel {
-
+public class Chat extends javax.swing.JPanel { 
+//Bu sınıf sohbet penceremiz. İçerisinde aşağıdaki componentleri barındırıyor. 
     private Chat_Title chatTitle;
     private Chat_Body chatBody;
     private Chat_Bottom chatBottom;
     
-    public Chat() {
+    public Chat() { 
         initComponents();
         init();
     }
-    private void init(){
-        setLayout(new MigLayout("fillx", "0[fill]0", "0[]0[100%, bottom]0[shrink 0]"));// sondaki ] den sonra videoda 0 var bizim kodumuzda yok
+    private void init(){ //Sınıfın belirtilen ayarlarla başlatılması
+        setLayout(new MigLayout("fillx", "0[fill]0", "0[]0[100%, bottom]0[shrink 0]"));
         chatTitle = new Chat_Title();
         chatBody = new Chat_Body();
         chatBottom = new Chat_Bottom();
-        PublicEvent.getInstance().addEventChat(new EventChat() {
-            @Override
+        PublicEvent.getInstance().addEventChat(new EventChat() { //PublicEvent sınıfı addEventChat metoduyla EventChat
+            @Override                                            //arayüzünü ekliyor.
             public void sendMessage(Model_Send_Message data) {
-                chatBody.addItemRight(data);
+                chatBody.addItemRight(data); //Gönderilmiş mesaj sağa eklenecek.
             }
 
             @Override
-            public void revieceMessage(Model_Recieve_Message data) {
-                if(chatTitle.getUser().getUserID() == data.getFromUserID()){
-                    chatBody.addItemLeft(data);
+            public void recieveMessage(Model_Recieve_Message data) {
+                if(chatTitle.getUser().getUserID() == data.getFromUserID()){ //Eğer iki kullanıcının penceresi aynı anda açıksa
+                    chatBody.addItemLeft(data); // mesajı sol kısma ekle.
                 }
             }
 
@@ -51,10 +51,10 @@ public class Chat extends javax.swing.JPanel {
     public void setUser(Model_User_Account user){
         chatTitle.setUserName(user);
         chatBottom.setUser(user);
-        chatBody.clearChat();
+        chatBody.clearChat(); //yeni bir kullanıcıyla konuştuğunda sohbetin silinmesi
     }
     
-    public void updateUser(Model_User_Account user){
+    public void updateUser(Model_User_Account user){ //yeni bir kullanıcı seçildiği zaman chatTitle'ın  yeni kullanıcıya göre güncellenmesi
         chatTitle.updateUser(user);
     }
   

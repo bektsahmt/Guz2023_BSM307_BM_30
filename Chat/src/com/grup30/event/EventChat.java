@@ -8,9 +8,9 @@ import com.grup30.model.Model_Send_Message;
  *
  * @author tuğçe
  */
-public interface EventChat {
+public interface EventChat { //mesajlaşma olayları
     
-    public void sendMessage(Model_Send_Message data);
+    public void sendMessage(Model_Send_Message data);  
     
-    public void revieceMessage(Model_Recieve_Message data);
+    public void recieveMessage(Model_Recieve_Message data);
 }

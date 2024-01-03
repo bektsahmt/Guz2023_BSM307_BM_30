@@ -8,7 +8,7 @@ import org.json.JSONObject;
  *
  * @author ahmet
  */
-public class Model_Recieve_Message {
+public class Model_Recieve_Message { //Mesaj alma işlemi
 
     
     public int getFromUserID() {
@@ -30,10 +30,10 @@ public class Model_Recieve_Message {
         this.text = text;
     }
 
-    public Model_Recieve_Message(Object json) {
-        JSONObject obj = (JSONObject) json;
-        try {
-            fromUserID = obj.getInt("fromUserID");
+    public Model_Recieve_Message(Object json) {  
+        JSONObject obj = (JSONObject) json;     //Bir json nesnesi kabul ediyor
+        try {                                   //bu parametreyi JSONObject'e dönüştürüyor. Gelen bu json nesnesini
+            fromUserID = obj.getInt("fromUserID");  //fromUserID ve text şeklinde ayrıştırmayı sağlıyor.
             text = obj.getString("text");
         } catch (JSONException e) {
             System.err.println(e);

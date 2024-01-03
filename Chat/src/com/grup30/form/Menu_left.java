@@ -26,10 +26,10 @@ public class Menu_left extends javax.swing.JPanel {
         sp.setVerticalScrollBar(new ScrollBar());
         menuList.setLayout(new MigLayout("fillx","0[]0","0[]0"));
         userAccount = new ArrayList<>();
-        PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft() {
+        PublicEvent.getInstance().addEventMenuLeft(new EventMenuLeft() { 
             @Override
-            public void newUser(List<Model_User_Account> users) {
-                for(Model_User_Account d:users){
+            public void newUser(List<Model_User_Account> users) { //Yeni bir kullanıcı geldiğinde kullanıcı listesine
+                for(Model_User_Account d:users){                //ekleniyor ve gösteriliyor.
                     userAccount.add(d);
                     menuList.add(new Item_People(d), "wrap");
                     refreshMenu();
@@ -37,7 +37,7 @@ public class Menu_left extends javax.swing.JPanel {
             }
 
             @Override
-            public void userConnect(int userID) {
+            public void userConnect(int userID) { //Kullanıcının bağlantı durumunun güncellenmesi
                 for(Model_User_Account u: userAccount){
                     if(u.getUserID() == userID){
                         u.setStatus(true);
@@ -46,10 +46,10 @@ public class Menu_left extends javax.swing.JPanel {
                     }
                 }
                 if(menuMessage.isSelected()){
-                    for(Component com: menuList.getComponents()){
+                    for(Component com: menuList.getComponents()){ //menuList'in içindeki alt bileşenler geziliyor
                         Item_People item = (Item_People) com;
                         if(item.getUser().getUserID() == userID){
-                            item.updateStatus();
+                            item.updateStatus(); //eğer parametre olarak alınan userID ile eşleşiyorsa update et
                             break;
                         }
                     }    

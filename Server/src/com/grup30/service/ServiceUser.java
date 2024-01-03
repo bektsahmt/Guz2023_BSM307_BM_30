@@ -19,8 +19,8 @@ public class ServiceUser {
         this.con = DatabaseConnection.getInstance().getConnection();
     }
 
-    public Model_Message register(Model_Register data) {
-        //  Check user exit
+    public Model_Message register(Model_Register data) { // yeni bir kullanıcı kaydı eklenmesi
+       
         Model_Message message = new Model_Message();
         try {
             PreparedStatement p = con.prepareStatement(CHECK_USER);
@@ -35,14 +35,14 @@ public class ServiceUser {
             r.close();
             p.close();
             if (message.isAction()) {
-                //  Insert User Register
+                
                 con.setAutoCommit(false);
                 p = con.prepareStatement(INSERT_USER, PreparedStatement.RETURN_GENERATED_KEYS);
                 p.setString(1, data.getUserName());
                 p.setString(2, data.getPassword());
                 p.execute();
                 r = p.getGeneratedKeys();
-                r.first(); // Hata alma durumunda buraya bi bak.
+                r.first(); 
                 int userID = r.getInt(1);
                 r.close();
                 p.close();
@@ -72,7 +72,7 @@ public class ServiceUser {
         return message;
     }
     
-    public Model_User_Account login(Model_Login login) throws SQLException{
+    public Model_User_Account login(Model_Login login) throws SQLException{  //kullanıcı giriş kontrolü
         Model_User_Account data = null;
         PreparedStatement p = con.prepareStatement(LOGIN);
         p.setString(1, login.getUserName());
@@ -88,7 +88,7 @@ public class ServiceUser {
         return data;
     }
     
-    public List<Model_User_Account> getUser(int existUser) throws SQLException{
+    public List<Model_User_Account> getUser(int existUser) throws SQLException{  //kullanıcı bilgilerini çekme
         List<Model_User_Account> list = new ArrayList<>();
         PreparedStatement p = con.prepareStatement(SELECT_USER_ACCOUNT);
         p.setInt(1, existUser);
@@ -103,7 +103,7 @@ public class ServiceUser {
         return list;
     }
     
-    private boolean checkUserStatus(int userID){
+    private boolean checkUserStatus(int userID){   //çevrimiçilik kontrolü
         List<Model_Client> clients = Service.getInstance(null).getListClient();
         for(Model_Client c: clients){
             if(c.getUser().getUserID() == userID){

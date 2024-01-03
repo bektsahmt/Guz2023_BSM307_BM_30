@@ -1,13 +1,13 @@
 
 package com.grup30.service;
 
-import com.corundumstudio.socketio.AckRequest;
-import com.corundumstudio.socketio.Configuration;
-import com.corundumstudio.socketio.SocketIOClient;
-import com.corundumstudio.socketio.SocketIOServer;
-import com.corundumstudio.socketio.listener.ConnectListener;
-import com.corundumstudio.socketio.listener.DataListener;
-import com.corundumstudio.socketio.listener.DisconnectListener;
+import com.corundumstudio.socketio.AckRequest;  //Soket.IO olaylarının alındığını onaylamak için
+import com.corundumstudio.socketio.Configuration;  //Socket.IO sunucusunun genel yapılandırma ayarlarını içerir.
+import com.corundumstudio.socketio.SocketIOClient;  //Bu sınıf, Soket.IO sunucusu ile iletişimde olan bir istemciyi temsil eder. 
+import com.corundumstudio.socketio.SocketIOServer;  //Bu sınıf, Socket.IO sunucusunu temsil eder.
+import com.corundumstudio.socketio.listener.ConnectListener;  //Bu listener, istemcinin sunucuya bağlandığı zaman gerçekleşen olayları dinlemek için kullanılır.
+import com.corundumstudio.socketio.listener.DataListener;  //Bu listener, belirli bir veri olayının gerçekleştiği zaman gerçekleşen olayları dinlemek için kullanılır. 
+import com.corundumstudio.socketio.listener.DisconnectListener;  //Bir istemcinin sunucudan bağlantısını kestiği zaman gerçekleşen olayları dinlemek için kullanılır. 
 import com.grup30.model.Model_Client;
 import com.grup30.model.Model_Login;
 import com.grup30.model.Model_Message;
@@ -24,16 +24,18 @@ import javax.swing.JTextArea;
  * @author ahmet
  */
 
+// Socket.IO sunucu uygulaması
 
 public class Service {
 
     
 
-    private static Service instance;
+    private static Service instance; //instance adında static değişken kullanılarak singleton tasarım deseni uygulanmıştır. 
+    //Sadece bir tane service oluşturulmasını sağlar
     private SocketIOServer server;
     private ServiceUser serviceUser;
     private List<Model_Client> listClient;
-    private JTextArea textArea;
+    private JTextArea textArea; //GUI tarafından kullanıcıya sunulan metin alanı
     private final int PORT_NUMBER = 9999;
 
     public static Service getInstance(JTextArea textArea) {
@@ -49,17 +51,17 @@ public class Service {
         listClient = new ArrayList<>();
     }
 
-    public void startServer() {
-        Configuration config = new Configuration();
-        config.setPort(PORT_NUMBER);
+    public void startServer() {  //Soket.IO sunucuyu başlatmak ve dinlemek için 
+        Configuration config = new Configuration(); //Netty kütüphanesi Configuration sınıfı kullanılarak yapılandırma ayarları belirlenir.
+        config.setPort(PORT_NUMBER);  //istemciler belirtilen port üerinden sunucuya bağlanır
         server = new SocketIOServer(config);
         server.addConnectListener(new ConnectListener() {
             @Override
-            public void onConnect(SocketIOClient sioc) {
+            public void onConnect(SocketIOClient sioc) {  // sioc nesnesi aracılığıyla stemci ile etkileşimde bulunabilir ve istemciye özgü bilgileri alabilirsiniz.
                 textArea.append("One client connected\n");
             }
         });
-        server.addEventListener("register", Model_Register.class, new DataListener<Model_Register>() {
+        server.addEventListener("register", Model_Register.class, new DataListener<Model_Register>() {  //sunucuya bağlantı olayı dinleyicisi eklenir
             @Override
             public void onData(SocketIOClient sioc, Model_Register t, AckRequest ar) throws Exception {
                 Model_Message message = serviceUser.register(t);
@@ -71,20 +73,20 @@ public class Service {
                 }
             }
         });
-        server.addEventListener("login", Model_Login.class, new DataListener<Model_Login>() {
+        server.addEventListener("login", Model_Login.class, new DataListener<Model_Login>() {  // login olay dinleyicisi eklenir
             @Override
             public void onData(SocketIOClient sioc, Model_Login t, AckRequest ar) throws Exception {
                 Model_User_Account login = serviceUser.login(t);
                 if(login != null){
-                    ar.sendAckData(true, login);
-                    addClient(sioc,login);
-                    userConnect(login.getUserID());
+                    ar.sendAckData(true, login);  //başarılı giriş yapıldığında onay mesajı
+                    addClient(sioc,login);  //istemci listesine yeni eleman eklenir
+                    userConnect(login.getUserID());  //diğer istemcilere kullanıcının çevrimiçi olduğu belirtilir
                 } else {
-                    ar.sendAckData(false);
+                    ar.sendAckData(false);  //başarısız giriş mesajı
                 }
             }
         });
-        server.addEventListener("list_user", Integer.class, new DataListener<Integer>(){
+        server.addEventListener("list_user", Integer.class, new DataListener<Integer>(){  //belirli bir kullanıcıdan bağlantı noktası hariç tüm kullanıcıları istemciye getirir
             @Override
             public void onData(SocketIOClient sioc, Integer userID, AckRequest ar) throws Exception{
                 try {
@@ -95,48 +97,48 @@ public class Service {
                 }
             }
         });
-        server.addEventListener("send_to_user", Model_Send_Message.class, new DataListener<Model_Send_Message>() {
+        server.addEventListener("send_to_user", Model_Send_Message.class, new DataListener<Model_Send_Message>() {  //kullanıcıdan gelen mesajı dinler
             @Override
             public void onData(SocketIOClient sioc, Model_Send_Message t, AckRequest ar) throws Exception {
-                sendToClient(t);
+                sendToClient(t); // gelen mesajı diğer kullanıcıya iletir
                 
             }
         });
-        server.addDisconnectListener(new DisconnectListener() {
+        server.addDisconnectListener(new DisconnectListener() {  //istemcilerin bağlantılarının kesilmesini dinler
             @Override
             public void onDisconnect(SocketIOClient sioc) {
-                int userID = removeClient(sioc);
+                int userID = removeClient(sioc);  // client nesnesini listeden kaldırır
                 if(userID != 0){
-                    userDisconnect(userID);
+                    userDisconnect(userID);  //kullanıcının durumu güncellenir ve diğer kullanıcılara bildirilir
                 }
             }
         });
-        server.start();
-        textArea.append("Server has Start on port : " + PORT_NUMBER + "\n");
+        server.start();  // sunucu başlatılır
+        textArea.append("Server has Start on port : " + PORT_NUMBER + "\n");  // başlatılma mesajı arayüze eklendi
     }
     
     private void userConnect(int userID){
-        server.getBroadcastOperations().sendEvent("user_status", userID, true);
+        server.getBroadcastOperations().sendEvent("user_status", userID, true);  // kullanıcının bağlandığını tüm istemcilere belirtir
     }
     
     private void userDisconnect(int userID){
-        server.getBroadcastOperations().sendEvent("user_status", userID, false);
+        server.getBroadcastOperations().sendEvent("user_status", userID, false);  // kullanıcının bağlantısının kesildiğini diğer tüm istemcilere belirtir
     }
     
     private void addClient(SocketIOClient client, Model_User_Account user){
         listClient.add(new Model_Client(client, user));
     }
     
-    private void sendToClient(Model_Send_Message data){
+    private void sendToClient(Model_Send_Message data){  //kullanıcılar arasında mesaj gönderimi
         for(Model_Client c:listClient){
-            if(c.getUser().getUserID() == data.getToUserID()){
+            if(c.getUser().getUserID() == data.getToUserID()){  // istemcinin kullanıcı kimliği ile gönderilmek istenen verinin toUsherID özelliğinin aynılığını kontrol
                 c.getClient().sendEvent("recieve_ms", new Model_Recieve_Message(data.getFromUserID(), data.getText()));
                 break;
             }
         }
     }
     
-    public int removeClient(SocketIOClient client){
+    public int removeClient(SocketIOClient client){  //istemci bağlantısı sona erdiğinde istemci bilgilerinin listeden kaldırılması
         for(Model_Client d: listClient){
             if(d.getClient()== client){
                 listClient.remove(d);
